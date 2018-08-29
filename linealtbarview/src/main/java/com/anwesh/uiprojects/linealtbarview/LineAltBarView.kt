@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.linealtbarview
  * Created by anweshmishra on 30/08/18.
  */
 
+import android.app.Activity
 import android.graphics.Paint
 import android.graphics.Canvas
 import android.view.View
@@ -184,6 +185,14 @@ class LineAltBarView(ctx : Context) : View(ctx) {
             linkedLineAltBar.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : LineAltBarView {
+            val view : LineAltBarView = LineAltBarView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
