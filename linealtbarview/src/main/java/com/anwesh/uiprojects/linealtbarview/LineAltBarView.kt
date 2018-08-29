@@ -10,6 +10,7 @@ import android.graphics.Canvas
 import android.view.View
 import android.view.MotionEvent
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.RectF
 
@@ -147,11 +148,12 @@ class LineAltBarView(ctx : Context) : View(ctx) {
     }
 
     data class LinkedLineAltBar(var i : Int) {
-        private var curr : LABNode = LABNode(0)
+        private var root : LABNode = LABNode(0)
+        private var curr : LABNode = root
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            curr.draw(canvas, paint)
+            root.draw(canvas, paint)
         }
 
         fun startUpdating(cb : () -> Unit) {
@@ -174,6 +176,7 @@ class LineAltBarView(ctx : Context) : View(ctx) {
 
         fun render(canvas : Canvas, paint : Paint) {
             canvas.drawColor(Color.parseColor("#BDBDBD"))
+            linkedLineAltBar.draw(canvas, paint)
             animator.animate {
                 linkedLineAltBar.update {i, scl ->
                     animator.stop()
@@ -192,6 +195,7 @@ class LineAltBarView(ctx : Context) : View(ctx) {
         fun create(activity : Activity) : LineAltBarView {
             val view : LineAltBarView = LineAltBarView(activity)
             activity.setContentView(view)
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             return view
         }
     }
