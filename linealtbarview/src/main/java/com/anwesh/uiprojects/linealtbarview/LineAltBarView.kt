@@ -164,4 +164,24 @@ class LineAltBarView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class Renderer(var view : LineAltBarView) {
+        private val animator : Animator = Animator(view)
+        private val linkedLineAltBar : LinkedLineAltBar = LinkedLineAltBar(0)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            animator.animate {
+                linkedLineAltBar.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            linkedLineAltBar.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
