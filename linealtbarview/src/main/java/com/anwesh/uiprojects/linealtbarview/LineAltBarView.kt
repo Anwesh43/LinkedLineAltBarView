@@ -105,8 +105,8 @@ class LineAltBarView(ctx : Context) : View(ctx) {
     }
 
     data class LABNode(var i : Int, val state : State = State()) {
-        var prev : LABNode? = this
-        var next : LABNode? = this
+        var prev : LABNode? = null
+        var next : LABNode? = null
 
         init {
             addNeighbor()
@@ -121,7 +121,7 @@ class LineAltBarView(ctx : Context) : View(ctx) {
 
         fun draw(canvas : Canvas, paint : Paint) {
             canvas.drawLABNode(i, state.scale, paint)
-            next?.draw(canvas, paint)
+            prev?.draw(canvas, paint)
         }
 
         fun update(cb : (Int, Float) -> Unit) {
@@ -148,12 +148,11 @@ class LineAltBarView(ctx : Context) : View(ctx) {
     }
 
     data class LinkedLineAltBar(var i : Int) {
-        private var root : LABNode = LABNode(0)
-        private var curr : LABNode = root
+        private var curr : LABNode = LABNode(0)
         private var dir : Int = 1
 
         fun draw(canvas : Canvas, paint : Paint) {
-            root.draw(canvas, paint)
+            curr.draw(canvas, paint)
         }
 
         fun startUpdating(cb : () -> Unit) {
